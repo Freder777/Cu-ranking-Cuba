@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking Cubano Smash Bros Ultimate</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-gamepad"></i>
+                    <span>CU Smash Ranking</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link">Inicio</a></li>
+                    <li><a href="#ranking" class="nav-link">Ranking</a></li>
+                    <li><a href="#torneos" class="nav-link">Torneos</a></li>
+                    <li><a href="#noticias" class="nav-link">Noticias</a></li>
+                    <li><a href="#chat" class="nav-link">Chat</a></li>
+                    <li><a href="#perfil" class="nav-link">Perfil</a></li>
+                    <li class="admin-link"><a href="#admin" class="nav-link">Admin</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Ranking Cubano</h1>
+            <h2>Smash Bros Ultimate</h2>
+            <p>La comunidad cubana más grande de Super Smash Bros Ultimate</p>
+            <div class="hero-buttons">
+                <a href="#ranking" class="btn btn-primary">Ver Ranking</a>
+                <a href="#perfil" class="btn btn-secondary">Crear Perfil</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ranking Section -->
+    <section id="ranking" class="ranking-section">
+        <div class="container">
+            <h2>Ranking Global</h2>
+            <div class="ranking-controls">
+                <select id="gameMode">
+                    <option value="global">Global</option>
+                    <option value="1v1">1v1</option>
+                    <option value="2v2">2v2</option>
+                </select>
+                <input type="text" id="searchPlayer" placeholder="Buscar jugador...">
+            </div>
+            <div class="ranking-table-container">
+                <table class="ranking-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Jugador</th>
+                            <th>Puntos</th>
+                            <th>Torneos</th>
+                            <th>Winrate</th>
+                            <th>Main</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rankingTableBody">
+                        <!-- Datos dinámicos -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Torneos Section -->
+    <section id="torneos" class="torneos-section">
+        <div class="container">
+            <h2>Próximos Torneos</h2>
+            <div class="torneos-grid" id="torneosGrid">
+                <!-- Torneos dinámicos -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Noticias Section -->
+    <section id="noticias" class="noticias-section">
+        <div class="container">
+            <h2>Noticias de la Comunidad</h2>
+            <div class="noticias-grid" id="noticiasGrid">
+                <!-- Noticias dinámicas -->
+            </div>
+            <div class="admin-noticia">
+                <h3>Agregar Noticia (Admin)</h3>
+                <textarea id="nuevaNoticia" placeholder="Escribe la nueva noticia..."></textarea>
+                <button onclick="agregarNoticia()" class="btn btn-primary">Publicar</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chat Section -->
+    <section id="chat" class="chat-section">
+        <div class="container">
+            <h2>Chat de la Comunidad</h2>
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages"></div>
+                <div class="chat-input">
+                    <input type="text" id="chatInput" placeholder="Escribe tu mensaje...">
+                    <button onclick="enviarMensaje()"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Perfil Modal -->
+    <div id="perfilModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Crear/Editar Perfil</h2>
+            <form id="perfilForm">
+                <input type="text" id="nombreJugador" placeholder="Nombre de jugador" required>
+                <input type="text" id="tag" placeholder="Tag/Discord" required>
+                <input type="text" id="main" placeholder="Main character">
+                <input type="file" id="avatar" accept="image/*">
+                <button type="submit" class="btn btn-primary">Guardar Perfil</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Panel de Administración</h2>
+            <div class="admin-tabs">
+                <button class="tab-btn active" onclick="mostrarTab('puntos')">Puntos</button>
+                <button class="tab-btn" onclick="mostrarTab('torneos')">Torneos</button>
+                <button class="tab-btn" onclick="mostrarTab('chatAdmin')">Chat</button>
+            </div>
+            <div id="puntos" class="tab-content active">
+                <input type="text" id="adminJugador" placeholder="Nombre jugador">
+                <input type="number" id="puntosAdmin" placeholder="Puntos a agregar">
+                <button onclick="agregarPuntos()" class="btn btn-primary">Agregar Puntos</button>
+            </div>
+            <div id="torneos" class="tab-content">
+                <input type="text" id="torneoNombre" placeholder="Nombre del torneo">
+                <input type="url" id="torneoLink" placeholder="Link start.gg">
+                <input type="date" id="torneoFecha">
+                <button onclick="agregarTorneo()" class="btn btn-primary">Agregar Torneo</button>
+            </div>
+            <div id="chatAdmin" class="tab-content">
+                <button onclick="borrarChat()" class="btn btn-danger">Borrar Chat</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
